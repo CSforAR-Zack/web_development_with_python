@@ -1,0 +1,10 @@
+{% macro header() %}
+<nav>
+    <ul>
+        <li><a href="{{ url_for('pages.index') }}">Home</a></li>
+        <li><a href="{{ url_for('pages.about') }}">About</a></li>
+        <li><a href="{{ url_for('pages.hobby') }}">Hobby</a></li>
+        <li><a href="{{ url_for('pages.work') }}">Work</a></li>
+    </ul>
+</nav>
+{% endmacro %}

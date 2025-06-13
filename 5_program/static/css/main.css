@@ -1,0 +1,36 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif; /* Sets a common, clean font */
+    line-height: 1.6; /* Improves readability of text */
+    margin: 20px; /* Adds some space around the content */
+    background-color: #000000; /* Light grey background for the entire page */
+    color: #333; /* Dark grey text color for general content */
+}
+
+/* Heading Styling (h1) */
+h1 {
+    color: #48f2f8; /* A nice shade of blue for the main heading */
+    font-family: 'Georgia', serif; /* A more traditional, elegant font for headings */
+    text-align: center; /* Centers the heading text */
+    margin-bottom: 25px; /* Adds space below the heading */
+    padding: 10px 0; /* Adds some vertical padding */
+    border-bottom: 2px solid #48f2f8; /* A blue underline effect */
+}
+
+/* Paragraph Styling (p) */
+p {
+    font-size: 1.1em; /* Makes the paragraph text slightly larger than default */
+    color: #aaaaaa; /* A slightly lighter grey for paragraph text */
+    text-align: justify; /* Justifies the text for a cleaner block appearance */
+    max-width: 800px; /* Limits the width of the paragraph for better readability */
+    margin: 0 auto 20px auto; /* Centers the paragraph and adds bottom margin */
+}
+
+img {
+    display: block; /* Makes the image a block-level element, taking up the full width */
+    margin: 20px auto; /* Centers the image horizontally with top and bottom margin */
+    max-width: 50%; /* Makes the image responsive, not exceeding 50% of its container's width */
+    height: auto; /* Maintains the aspect ratio of the image */
+    border: 1px solid #ccc; /* Adds a light grey border around the image */
+    border-radius: 5px; /* Slightly rounds the corners of the image */
+}
