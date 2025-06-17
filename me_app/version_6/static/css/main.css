@@ -1,0 +1,77 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #000000;
+    color: #333;
+}
+
+/* Heading Styling (h1) */
+h1 {
+    color: #00ff00;
+    font-family: 'Georgia', serif;
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 10px 0;
+    border-bottom: 2px solid #00ff00;
+}
+
+/* Paragraph Styling (p) */
+p {
+    font-size: 1.1em;
+    color: #aaaaaa;
+    text-align: justify; 
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+}
+
+img {
+    display: block;
+    margin: 20px auto;
+    max-width: 50%;
+    height: auto; 
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 1);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Navigation Bar Styling */
+nav {
+    background-color: #333;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 1);
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+    color: #00ff00;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+}

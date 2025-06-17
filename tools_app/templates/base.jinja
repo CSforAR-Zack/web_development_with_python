@@ -1,0 +1,15 @@
+{% from "macros/effects.jinja" import scramble %}
+
+{% extends "layout.jinja" %}
+
+{% block content %}
+    <div class="content">{{ scramble(
+        "content",
+        "Good luck, and may the code be ever in your favor.",
+        "MJHYGSDRBLPOINVDFCAQKLDGPOIYRVBFEWSCNMLOIKPWASQGDF",
+    ) }}</div>
+
+    <script>
+        scrambleGlitch(".scramble");
+    </script>
+{% endblock %}

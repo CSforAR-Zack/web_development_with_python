@@ -1,0 +1,14 @@
+{% extends "layout.jinja" %}
+
+{% block content %}
+    <div class="title">FINAL COUNTDOWN</div>
+    <div class="countdown-container">
+        <div class="countdown">
+            <div id="countdown">GET READY!</div>
+        </div>
+    </div>
+
+    <script>
+        countdownTimer({{ time_left }}, "countdown");
+    </script>
+{% endblock %}
