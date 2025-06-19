@@ -1,0 +1,47 @@
+{% extends "layout.jinja" %}
+
+{% block content %}
+<div class="container">
+    <div class="title">Visitor Log</div>
+</div> 
+<form name="visitors" method="post" class="form">
+    <div class="form-group">
+        {{ form.hidden_tag() }}
+
+        {{ form.name.label(class_="form-label") }}
+        {{ form.name(class_="form-field") }}
+    </div>
+    <div class="form-group">        
+        {{ form.date.label(class_="form-label") }}
+        {{ form.date(class_="form-field") }}
+    </div>
+    <div class="form-group">        
+        {{ form.reason.label(class_="form-label") }}
+        {{ form.reason(class_="form-field") }}
+    </div>
+    <div class="form-group-button">
+        {{ form.submit(class_="form-button") }}
+    </div>
+</form>
+<div class="results">
+    {% if workshops_data is not none %}
+        <div class="results-heading">
+            Vistors: {{ visitors|length }}
+        </div>
+        <ul class="results-list">
+            {% for visitor in visitors %}
+                <li class="results-list-item">
+                    <div class="results-list-item-sub">
+                        {{ visitor['name'] }} - {{ visitor['date'] }} - {{ visitor['reason'] }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="results-heading">
+            No visitors found.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

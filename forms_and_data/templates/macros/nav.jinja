@@ -1,0 +1,8 @@
+{% macro header() %}
+<header class="nav-header">
+    <div class="nav-container">
+        <a class="nav-link" href="{{ url_for('pages.index') }}">Home</a>
+        <a class="nav-link" href="{{ url_for('pages.visitors') }}">Visitors</a>
+    </div>
+</header>
+{% endmacro %}
