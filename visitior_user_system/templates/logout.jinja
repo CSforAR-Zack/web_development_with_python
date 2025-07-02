@@ -1,0 +1,14 @@
+{% extends "layout.jinja" %}
+
+{% block content %}
+<div class="container">
+    <div class="title">Logout?</div>
+</div> 
+<form name="login" method="post" class="form">
+    <div class="form-group-button">
+        {{ form.confirm_submit(class_="form-button") }}
+        {{ form.cancel_submit(class_="form-button") }}
+    </div>
+</form>
+{% endblock %}
+

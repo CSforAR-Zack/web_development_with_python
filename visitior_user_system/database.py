@@ -2,35 +2,44 @@ import sqlite3
 
 
 def create_database():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('myDB.db')
     cursor = conn.cursor()
     
-  # Create table for users
+    # Create table for visitors
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS visitors (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         visitor TEXT NOT NULL UNIQUE,
         date TEXT NOT NULL,
-        reason TEXT NOT NULL
+        comment TEXT NOT NULL
     )''')
-    
+
+    # Create table for users (if needed)
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL
+    )''')
+
     conn.commit()
     conn.close()
 
 
-def enter_data(visitor, date, reason):
-    conn = sqlite3.connect('database.db')
+def enter_comment(visitor, date, comment):
+    conn = sqlite3.connect('myDB.db')
     cursor = conn.cursor()
     
     cursor.execute('''
-    INSERT INTO visitors (visitor, date, reason) VALUES (?, ?, ?)
-    ''', (visitor, date, reason))
+    INSERT INTO visitors (visitor, date, comment) VALUES (?, ?, ?)
+    ''', (visitor, date, comment))
     
-    conn.commit()
+    conn.commit()    
+    cursor.close()
     conn.close()
 
-def get_visitors():
-    conn = sqlite3.connect('database.db')
+def get_comments():
+    conn = sqlite3.connect('myDB.db')
     cursor = conn.cursor()
     
     cursor.execute('SELECT * FROM visitors')
@@ -38,6 +47,17 @@ def get_visitors():
     
     conn.close()
     return data
+
+
+def get_user(email):
+    conn = sqlite3.connect('myDB.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
+    user = cursor.fetchone()
+    
+    conn.close()
+    return user
 
 
 if __name__ == '__main__':
