@@ -59,6 +59,18 @@ def get_user(email):
     conn.close()
     return user
 
+def add_user(email, password):
+    conn = sqlite3.connect('myDB.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    INSERT INTO users (email, password) VALUES (?, ?)
+    ''', (email, password))
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 
 if __name__ == '__main__':
     create_database()

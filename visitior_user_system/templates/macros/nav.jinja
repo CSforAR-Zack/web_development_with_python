@@ -1,10 +1,9 @@
-{% macro header(current_user) %}
+{% macro header(email) %}
 <header class="nav-header">
     <div class="nav-container">
         <a class="nav-link" href="{{ url_for('pages.index') }}">Home</a>
         <a class="nav-link" href="{{ url_for('pages.visitors') }}">Visitors</a>
-        {% if current_user %}
-            <span class="nav-user">Logged in as {{ current_user }}</span>
+        {% if email != none %}
             <a class="nav-link" href="{{ url_for('pages.logout') }}">Logout</a>
         {% else %}
             <a class="nav-link" href="{{ url_for('pages.login') }}">Login</a>

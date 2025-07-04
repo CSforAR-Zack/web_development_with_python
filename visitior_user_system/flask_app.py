@@ -55,7 +55,7 @@ def index():
 def visitors():
     form = forms.EntryForm()
     if form.validate_on_submit():
-        db.enter_comment(form.email.data, form.date.data, form.reason.data)
+        db.enter_comment(form.name.data, form.date.data, form.reason.data)
         return flask.redirect(flask.url_for('pages.visitors'))
 
     visitors = db.get_comments()
@@ -106,7 +106,7 @@ def login():
 @login_required
 def logout():
     form = forms.LogoutForm()
-    if form.validate_on_submit():
+    if form.is_submitted():
         if form.confirm_submit.data:
             flask.session.pop('email', None)
             return flask.redirect(flask.url_for('pages.index'))
@@ -122,10 +122,33 @@ def logout():
     )
 
 
-# Helpers
+@pages.route('/register', methods=['GET', 'POST'])
+def register():
+    form = forms.RegisterForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        if db.get_user(email):
+            flask.flash('Email already registered. Please log in.', 'error')
+            return flask.redirect(flask.url_for('pages.login'))
+        password = form.password.data
+        password = ph.pbkdf2_sha256.hash(password)
+        db.add_user(email, password)
+        flask.flash('Registration successful! You can now log in.', 'success')
+        return flask.redirect(flask.url_for('pages.login'))
+
+    return flask.render_template(
+        'register.jinja',
+        title='Register',
+        heading="Register",
+        content="Please fill in the form below to create an account.",
+        form=form,
+    )
+
+
+# Helper Functions
 def check_login(email, password):
     user = db.get_user(email)
-    if user and ph.verify(password, user[2]):
+    if user and ph.pbkdf2_sha256.verify(password, user[2]):
         return True
     return False
 
@@ -133,4 +156,4 @@ def check_login(email, password):
 
 if __name__ == '__main__':
     app.register_blueprint(pages)
-    app.run()
+    app.run(debug=True, host='0.0.0.0')

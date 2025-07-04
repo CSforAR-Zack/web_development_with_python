@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="container">
-    <div class="title">Please Login</div>
-</div> 
-<form name="login" method="post" class="form">
+    <div class="title">Register</div>
+</div>
+<form name="register" method="post" class="form">
     <div class="form-group">
         {{ form.hidden_tag() }}
 
@@ -17,9 +17,6 @@
     </div>
     <div class="form-group-button">
         {{ form.submit(class_="form-button") }}
-    </div>
-    <div class="container">
-        <a href="{{ url_for('pages.register') }}" class="register-link">Register Here</a>
     </div>
 </form>
 {% endblock %}

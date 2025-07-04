@@ -166,3 +166,9 @@ body {
     background-color: var(--primary-color);
     color:  var(--background-color);
 }
+
+.register-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--text-color);
+}
