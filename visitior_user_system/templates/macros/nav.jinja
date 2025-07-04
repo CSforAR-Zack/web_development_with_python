@@ -9,5 +9,12 @@
             <a class="nav-link" href="{{ url_for('pages.login') }}">Login</a>
         {% endif %}
     </div>
+    <div class="nav-title">
+        {% if email != none %}
+                User: {{ email }}
+        {% else %}
+                User: Not logged in
+        {% endif %}
+    </div>
 </header>
 {% endmacro %}
