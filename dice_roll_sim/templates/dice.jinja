@@ -1,0 +1,40 @@
+{% extends "layout.jinja" %}
+
+{% block content %}
+<div class="container">
+    <div class="title">Dice Simulation</div>
+</div> 
+<form name="dice" method="post" class="form">
+    <div class="form-group">
+        {{ form.hidden_tag() }}
+
+        {{ form.die1.label(class_="form-label") }}
+        {{ form.die1(class_="form-field") }}
+    </div>
+    <div class="form-group">        
+        {{ form.die2.label(class_="form-label") }}
+        {{ form.die2(class_="form-field") }}
+    </div>
+    <div class="form-group">        
+        {{ form.rolls.label(class_="form-label") }}
+        {{ form.rolls(class_="form-field") }}
+    </div>
+    <div class="form-group-button">
+        {{ form.submit(class_="form-button") }}
+    </div>
+</form>
+{% if figure is not none %}
+    <div class="default__content">
+        <div class="card-graph">
+            <div id="graph1" class="graph">    
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+    <script>
+        Plotly.newPlot("graph1", {{ figure | safe }});
+    </script>
+{% endif %}
+{% endblock %}
+
