@@ -55,10 +55,12 @@ def index():
 def visitors():
     form = forms.EntryForm()
     if form.validate_on_submit():
-        db.enter_comment(form.name.data, form.date.data, form.reason.data)
+        with db.Database() as dbo:
+            dbo.enter_comment(form.name.data, form.date.data, form.reason.data)
         return flask.redirect(flask.url_for('pages.visitors'))
 
-    visitors = db.get_comments()
+    with db.Database() as dbo:
+        visitors = dbo.get_comments()
 
     if visitors:
         visitors = [
@@ -127,13 +129,14 @@ def register():
     form = forms.RegisterForm()
     if form.validate_on_submit():
         email = form.email.data
-        if db.get_user(email):
-            flask.flash('Email already registered. Please log in.', 'error')
-            return flask.redirect(flask.url_for('pages.login'))
-        password = form.password.data
-        password = ph.pbkdf2_sha256.hash(password)
-        db.add_user(email, password)
-        flask.flash('Registration successful! You can now log in.', 'success')
+        with db.Database() as dbo:
+            if dbo.get_user(email):
+                flask.flash('Email already registered. Please log in.', 'error')
+                return flask.redirect(flask.url_for('pages.login'))
+            password = form.password.data
+            password = ph.pbkdf2_sha256.hash(password)
+            dbo.add_user(email, password)
+            flask.flash('Registration successful! You can now log in.', 'success')
         return flask.redirect(flask.url_for('pages.login'))
 
     return flask.render_template(
@@ -147,11 +150,11 @@ def register():
 
 # Helper Functions
 def check_login(email, password):
-    user = db.get_user(email)
-    if user and ph.pbkdf2_sha256.verify(password, user[2]):
-        return True
+    with db.Database() as dbo:
+        user = dbo.get_user(email)
+        if user and ph.pbkdf2_sha256.verify(password, user[2]):
+            return True
     return False
-
 
 
 if __name__ == '__main__':

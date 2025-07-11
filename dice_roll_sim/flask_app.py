@@ -66,6 +66,45 @@ def dice():
     )
 
 
+@pages.route('/logic', methods=['GET', 'POST'])
+def logic():
+    form: forms.LogicGateForm = forms.LogicGateForm()
+    left = False
+    operator = 'AND'
+    right = False
+    result = False
+    
+    if form.is_submitted():
+        if form.left.data == 'True':
+            left = True
+        left = form.left.data
+        operator = form.operator.data
+        right = form.right.data
+
+    if operator == 'AND':
+        result = left and right
+    elif operator == 'OR':
+        result = left or right
+    elif operator == 'XOR':
+        result = left ^ right
+    else:
+        result = False
+
+    return flask.render_template(
+        'logic_gate.jinja',
+        title='Logic Gate',
+        heading="Logic Gate Simulation",
+        content="Select your logic gate inputs and operator.",
+        form=form,
+        left=left,
+        operator=operator,
+        right=right,
+        result=result,
+    )
+
+        
+
+
 def create_dice_graph(die1_sides, die2_sides, rolls):
     # Roll the dice, sum sides, determine frequency
     results: list = []
