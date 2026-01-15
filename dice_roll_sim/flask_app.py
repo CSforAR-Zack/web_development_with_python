@@ -19,8 +19,6 @@ pages = flask.Blueprint(
     static_folder='static',
 )
 
-
-
 # Error handling
 @app.errorhandler(404)
 def page_not_found(e):
@@ -35,7 +33,7 @@ def page_not_found(e):
 @pages.route('/')
 def index():
     return flask.render_template(
-        'index.html',
+        'index.jinja',
         title='Welcome!',
         heading="Welcome, Visitor!",
         content="This is the home page for our museum visitor log application.",
@@ -75,11 +73,9 @@ def logic():
     result = False
     
     if form.is_submitted():
-        if form.left.data == 'True':
-            left = True
-        left = form.left.data
+        left = form.toggle_left.data
         operator = form.operator.data
-        right = form.right.data
+        right = form.toggle_right.data
 
     if operator == 'AND':
         result = left and right
@@ -100,10 +96,11 @@ def logic():
         operator=operator,
         right=right,
         result=result,
-    )
+    )        
 
-        
 
+
+app.register_blueprint(pages)
 
 def create_dice_graph(die1_sides, die2_sides, rolls):
     # Roll the dice, sum sides, determine frequency
@@ -145,5 +142,4 @@ def create_dice_graph(die1_sides, die2_sides, rolls):
 
 
 if __name__ == '__main__':
-    app.register_blueprint(pages)
     app.run()

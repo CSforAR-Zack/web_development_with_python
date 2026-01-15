@@ -9,9 +9,9 @@
         <div class="form-group">
             {{ form.hidden_tag() }}
             {% if left %}
-                {{ form.left(class_="form-button-true") }}
+                {{ form.toggle_left(class_="form-button-true") }}
             {% else %}
-                {{ form.left(class_="form-button-false") }}
+                {{ form.toggle_left(class_="form-button-false") }}
             {% endif %}
         </div>
         <div class="form-group">        
@@ -20,9 +20,9 @@
         </div>
         <div class="form-group">
             {% if right %}
-                {{ form.right(class_="form-button-true") }}
+                {{ form.toggle_right(class_="form-button-true") }}
             {% else %}
-                {{ form.right(class_="form-button-false") }}
+                {{ form.toggle_right(class_="form-button-false") }}
             {% endif %}
         </div>
     </div>    
