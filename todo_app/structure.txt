@@ -1,0 +1,73 @@
+todo_app/
+│
+├── run.py                     # Entry point — creates the app instance and starts the dev server
+├── config.py                  # Configuration (secret key, DB URI, env-based settings)
+├── requirements.txt           # Project dependencies (Flask, Flask-Login, Flask-SQLAlchemy, Flask-WTF, etc.)
+├── .env                       # Environment variables (SECRET_KEY, DATABASE_URL) — not committed
+├── .gitignore
+├── structure.txt
+│
+├── instance/
+│   └── todo.db                # SQLite3 database file (generated at runtime)
+│
+└── app/
+    ├── __init__.py             # App factory (create_app), extension init (db, login_manager), blueprint registration
+    │
+    ├── extensions.py           # Shared extension instances (SQLAlchemy(), LoginManager(), Bcrypt(), etc.)
+    │
+    ├── models/                 # Data layer — SQLite3 tables via SQLAlchemy ORM
+    │   ├── __init__.py
+    │   ├── user.py              # User model (id, username, email, password_hash) + UserMixin for Flask-Login
+    │   └── task.py              # Task model (id, title, description, is_complete, due_date, user_id FK)
+    │
+    ├── auth/                   # Auth feature — separated from todo logic
+    │   ├── __init__.py
+    │   ├── routes.py            # /register, /login, /logout views
+    │   ├── forms.py             # RegistrationForm, LoginForm (Flask-WTF)
+    │   └── services.py          # Password hashing/verification, user creation logic
+    │
+    ├── todos/                  # Todo feature — CRUD for tasks
+    │   ├── __init__.py
+    │   ├── routes.py            # /todos (list), /todos/add, /todos/<id>/edit,
+    │   │                        #   /todos/<id>/check (toggle complete), /todos/<id>/delete
+    │   ├── forms.py             # TaskForm (create/edit)
+    │   └── services.py          # Business logic: create_task, update_task, toggle_task, delete_task
+    │                            #   (keeps DB queries out of routes.py)
+    │
+    ├── static/
+    │   ├── css/
+    │   │   └── main.css
+    │   ├── js/
+    │   │   └── scripts.js       # Client-side behavior (e.g., confirm-delete, check animations)
+    │   └── images/
+    │
+    └── templates/
+        ├── layout.jinja          # Base template (nav, flash messages, blocks)
+        ├── macros/
+        │   ├── nav.jinja
+        │   └── footer.jinja
+        ├── auth/
+        │   ├── login.jinja
+        │   └── register.jinja
+        ├── todos/
+        │   ├── list.jinja        # Shows all tasks for the logged-in user
+        │   ├── add.jinja
+        │   └── edit.jinja
+        └── errors/
+            ├── 404.jinja
+            └── 403.jinja
+
+
+Separation of Concerns
+-----------------------
+- models/        -> data structure & persistence only (SQLAlchemy models, no business logic)
+- auth/, todos/  -> each feature is a self-contained blueprint: routes (HTTP layer) call
+                    services (business logic layer), which call models (data layer)
+- forms.py       -> input validation, isolated from route handlers
+- templates/     -> presentation only, organized to mirror the blueprints
+- config.py + extensions.py -> app-wide setup kept out of feature code, wired together
+                    once in app/__init__.py (application factory pattern)
+
+Request flow example (edit a task):
+  routes.py (todos) -> forms.py validates input -> services.py (update_task) ->
+  models/task.py (Task) -> db.session.commit() -> redirect back to list.jinja
