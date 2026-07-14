@@ -1,0 +1,22 @@
+{% from "macros/icons.jinja" import checkbox_checked, checkbox_unchecked %}
+
+{% extends "layout.jinja" %}
+
+{% block content %}
+<h1>Tasks</h1>
+<div class="task-container">
+    <div class="task-list">
+        {% for task in tasks %}
+            <div class="task-list-item">
+                {% if task.completed %}
+                    <div class="icon">{{ checkbox_checked() }}</div>
+                    <p class="strikethrough">{{ task.title }}: {{task.start_time}} - {{ task.description }}</p>
+                {% else %}
+                    <div class="icon">{{ checkbox_unchecked() }}</div>
+                    <p>{{ task.title }}: {{task.start_time}} - {{ task.description }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

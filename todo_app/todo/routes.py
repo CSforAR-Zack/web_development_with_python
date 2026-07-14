@@ -1,6 +1,7 @@
 import flask as fk
 
 import todo.forms as tf
+import todo.services as ts
 
 
 pages = fk.Blueprint("pages", __name__, template_folder="templates")
@@ -15,7 +16,7 @@ def index():
         content="This is a simple TODO application built with Flask.",
     )
 
-
+# Authentication routes
 @pages.route("/login", methods=["GET", "POST"])
 def login():
     """Render the login page."""
@@ -41,4 +42,34 @@ def logout():
         heading="Logout from the TODO App",
         content="Are you sure you want to log out?",
         form=form
+    )
+
+# Task management routes
+@pages.route("/tasks", methods=["GET", "POST"])
+def tasks():
+    """Render the tasks page."""
+
+    todo_list = ts.read_tasks_from_csv("todo/temp_tasks.csv")
+
+    return fk.render_template(
+        "tasks.jinja",
+        title="Tasks",
+        heading="Manage Your Tasks",
+        content="Add, edit, and delete your tasks.",
+        tasks=todo_list
+    )
+
+
+@pages.route("/done", methods=["GET", "POST"])
+def done():
+    """Render the done page."""
+    
+    completed_tasks = []
+
+    return fk.render_template(
+        "done.jinja",
+        title="Done",
+        heading="Completed Tasks",
+        content="Here are the tasks you've completed.",
+        tasks=completed_tasks,
     )

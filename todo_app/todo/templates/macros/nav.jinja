@@ -1,8 +1,8 @@
 {% macro header(email) %}
 <header class="nav-header">
     <div class="nav-container">
-        <a class="nav-link" href="">TODO</a>
-        <a class="nav-link" href="">DONE</a>
+        <a class="nav-link" href="{{ url_for('pages.tasks') }}">TODO</a>
+        <a class="nav-link" href="{{ url_for('pages.done') }}">DONE</a>
         {% if email != none %}
             <a class="nav-link" href="{{ url_for('pages.logout') }}">LOGOUT</a>
         {% else %}

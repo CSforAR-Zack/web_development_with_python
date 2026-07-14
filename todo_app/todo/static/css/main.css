@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #00ff00;
-    --highlight-color: #00cc00;
+    --primary-color: #00cc00;
+    --highlight-color: #00ff00;
     --secondary-color: #515151;
     --third-color: #222;
     --background-color: #000000;
@@ -13,7 +13,7 @@ body {
     line-height: 1.6;
     margin: 20px;
     background-color: var(--background-color);
-    color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 /* Heading Styling (h1) */
@@ -145,4 +145,62 @@ body {
 
 .form-button:hover {
     background-color: var(--highlight-color);
+}
+
+/* Task List Styling */
+.task-container {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: .1rem solid var(--primary-color);
+    border-radius: .5rem;
+    color: var(--primary-color);
+}
+
+.task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-list-item {
+    display: flex;
+    flex-direction: row;
+    margin: .5rem;
+    padding: .5rem;
+    border-bottom: .1rem solid var(--primary-color);
+}
+
+.task-list-item:nth-child(odd) {
+    background-color: var(--secondary-color);
+}
+
+.task-list-item:last-child {
+    border-bottom: none;
+}
+
+.task-list-item:hover {
+    background-color: var(--highlight-color);
+    color:  var(--background-color);
+    transform: scale(1.02);
+}
+
+.task-list-item h2 {
+    margin: 0 0.5rem 0;
+}
+
+.task-list-item p {
+    margin: 0 1.5rem 0;
+}
+
+/* Icons Styling */
+.task-list-item .icon {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke: currentColor;
+    fill: currentColor;
+}
+
+/* General Styling */
+.strikethrough {
+    text-decoration-line: line-through;
 }
