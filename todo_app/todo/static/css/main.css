@@ -220,8 +220,17 @@ body {
     color: var(--background-color);
 }
 
-/* Fixing Hyperlink Styling */
 a {
     color: currentColor;
     text-decoration: none;
+}
+
+.redirect-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--text-color);
+}
+
+.redirect-link:hover {
+    color: var(--highlight-color);
 }

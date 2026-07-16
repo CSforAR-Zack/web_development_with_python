@@ -67,6 +67,33 @@ def logout():
         form=form
     )
 
+@pages.route("/create_account", methods=["GET", "POST"])
+def create_account():
+    """Render the account creation page."""
+    form = tf.RegisterForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        user = ts.get_user_by_username(username)
+
+        if user is None:
+            ts.create_user(username, password)
+            fk.flash("Account created successfully. Please log in.", "success")
+            return fk.redirect(fk.url_for("pages.login"))
+        else:
+            fk.flash("Username already exists. Please choose a different one.", "error")
+
+    return fk.render_template(
+        "create_account.jinja",
+        title="Create Account",
+        heading="Create a New Account",
+        content="Please fill out the form below to create a new account.",
+        form=form
+    )
+
+
 # Task management routes
 @pages.route("/tasks", methods=["GET", "POST"])
 @fkl.login_required
@@ -127,7 +154,6 @@ def tasks_deleted():
         tasks=archived_tasks,
     )
 
-# Task management routes
 @pages.route("/task/<int:task_id>/toggle", methods=["POST", "GET"])
 @fkl.login_required
 def task_toggle_complete(task_id):

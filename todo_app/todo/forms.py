@@ -4,12 +4,12 @@ import wtforms as wtf
 
 class LoginForm(f_wtf.FlaskForm):
     username = wtf.StringField(
-        'username',
+        'Username',
         render_kw={'placeholder': 'USERNAME'},
         validators=[wtf.validators.DataRequired()],
     )
     password = wtf.PasswordField(
-        'password',
+        'Password',
         render_kw={'placeholder': 'PASSWORD'},
         validators=[wtf.validators.DataRequired()],
     )
@@ -53,3 +53,25 @@ class EditTaskForm(f_wtf.FlaskForm):
     )
     submit = wtf.SubmitField('Update Task')
     cancel = wtf.SubmitField('Cancel')
+
+
+class RegisterForm(f_wtf.FlaskForm):
+    username = wtf.StringField(
+        'Username',
+        render_kw={'placeholder': 'USERNAME'},
+        validators=[wtf.validators.DataRequired()],
+    )
+    password = wtf.PasswordField(
+        'Password',
+        render_kw={'placeholder': 'PASSWORD'},
+        validators=[wtf.validators.DataRequired()],
+    )
+    confirm_password = wtf.PasswordField(
+        'Confirm Password',
+        render_kw={'placeholder': 'CONFIRM PASSWORD'},
+        validators=[
+            wtf.validators.DataRequired(),
+            wtf.validators.EqualTo('password', message='Passwords must match.'),
+        ],
+    )
+    submit = wtf.SubmitField('Register')
