@@ -6,6 +6,8 @@
 </div> 
 <form name="login" method="post" class="form">
     <div class="form-group-button">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
         {{ form.confirm_submit(class_="form-button") }}
         {{ form.cancel_submit(class_="form-button") }}
     </div>

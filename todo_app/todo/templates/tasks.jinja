@@ -1,4 +1,4 @@
-{% from "macros/icons.jinja" import checkbox_checked, checkbox_unchecked %}
+{% from "macros/icons.jinja" import complete, not_complete, edit, trash, archive %}
 
 {% extends "layout.jinja" %}
 
@@ -9,14 +9,34 @@
         {% for task in tasks %}
             <div class="task-list-item">
                 {% if task.completed %}
-                    <div class="icon">{{ checkbox_checked() }}</div>
                     <p class="strikethrough">{{ task.title }}: {{task.start_time}} - {{ task.description }}</p>
                 {% else %}
-                    <div class="icon">{{ checkbox_unchecked() }}</div>
                     <p>{{ task.title }}: {{task.start_time}} - {{ task.description }}</p>
                 {% endif %}
+                <div class="icons">
+                    <a href="{{ url_for('pages.task_toggle_complete', task_id=task.id) }}">
+                        {% if task.completed %}
+                            <div class="icon">{{ complete() }}</div>                    
+                        {% else %}                  
+                            <div class="icon">{{ not_complete() }}</div>
+                        {% endif %}
+                    </a>
+                    <a href="{{ url_for('pages.task_edit', task_id=task.id) }}">
+                        <div class="icon">{{ edit() }}</div>
+                    </a>
+                    <a href="{{ url_for('pages.task_toggle_delete_flag', task_id=task.id) }}">
+                        <div class="icon">{{ trash() }}</div>
+                    </a>
+                </div>
             </div>
         {% endfor %}
     </div>
+    <form name="tasks" method="post" class="form">
+        <div class="form-group">
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
+            {{ form.submit(class_="form-button") }}
+        </div>
+    </form>
 </div>
 {% endblock %}

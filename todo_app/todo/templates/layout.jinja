@@ -1,5 +1,6 @@
 {% from "macros/nav.jinja" import header %}
 {% from "macros/footer.jinja" import footer %}
+{% from "macros/messages.jinja" import messages %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    {{ header(session.get('email')) }}
+    {{ header(current_user.username if current_user.is_authenticated else none) }}
+    {{ messages() }}
     {% block content %} {% endblock %}
     {{ footer() }}
 </body>

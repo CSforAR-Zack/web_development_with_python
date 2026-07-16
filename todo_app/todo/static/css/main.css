@@ -1,8 +1,9 @@
 :root {
     --primary-color: #00cc00;
-    --highlight-color: #00ff00;
     --secondary-color: #515151;
     --third-color: #222;
+    --highlight-color: #00ff00;
+    --error-color: #ff8888;
     --background-color: #000000;
     --text-color: #ffffff;
 }
@@ -87,8 +88,6 @@ body {
 }
 
 /* Forms Styling */
-
-
 .form {
     display: flex;
     flex-direction: column;
@@ -164,6 +163,7 @@ body {
 .task-list-item {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin: .5rem;
     padding: .5rem;
     border-bottom: .1rem solid var(--primary-color);
@@ -178,9 +178,7 @@ body {
 }
 
 .task-list-item:hover {
-    background-color: var(--highlight-color);
-    color:  var(--background-color);
-    transform: scale(1.02);
+    color:  var(--highlight-color);
 }
 
 .task-list-item h2 {
@@ -199,8 +197,31 @@ body {
     stroke: currentColor;
     fill: currentColor;
 }
+.task-list-item .icon:hover {
+    transform: scale(1.2);
+}
 
 /* General Styling */
 .strikethrough {
     text-decoration-line: line-through;
+}
+
+.message_flash {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: .5rem;
+    text-align: center;
+}
+
+.message_flash--error {
+    background-color: var(--error-color);
+    color: var(--background-color);
+}
+
+/* Fixing Hyperlink Styling */
+a {
+    color: currentColor;
+    text-decoration: none;
 }

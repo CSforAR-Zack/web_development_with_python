@@ -1,0 +1,28 @@
+{% from "macros/icons.jinja" import complete, not_complete, trash, restore %}
+
+{% extends "layout.jinja" %}
+
+{% block content %}
+<h1>Deleted Tasks</h1>
+<div class="task-container">
+    <div class="task-list">
+        {% for task in tasks %}
+            <div class="task-list-item">
+                {% if task.completed %}
+                    <p class="strikethrough">{{ task.title }}: {{task.start_time}} - {{ task.description }}</p>
+                {% else %}
+                    <p>{{ task.title }}: {{task.start_time}} - {{ task.description }}</p>
+                {% endif %}
+                <div class="icons">
+                    <a href="{{ url_for('pages.task_delete', task_id=task.id) }}">
+                        <div class="icon">{{ trash() }}</div>
+                    </a>
+                    <a href="{{ url_for('pages.task_toggle_delete_flag', task_id=task.id) }}">
+                        <div class="icon">{{ restore() }}</div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

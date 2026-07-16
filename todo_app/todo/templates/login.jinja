@@ -3,13 +3,14 @@
 {% block content %}
 <div class="container">
     <div class="title">Please Login</div>
-</div> 
+</div>
 <form name="login" method="post" class="form">
     <div class="form-group">
         {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
 
-        {{ form.email.label(class_="form-label") }}
-        {{ form.email(class_="form-field") }}
+        {{ form.username.label(class_="form-label") }}
+        {{ form.username(class_="form-field") }}
     </div>
     <div class="form-group">
         {{ form.password.label(class_="form-label") }}

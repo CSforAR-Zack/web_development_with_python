@@ -1,0 +1,24 @@
+{% extends "layout.jinja" %}
+
+{% block content %}
+<div class="container">
+    <div class="title">Add Your Task</div>
+</div>
+<form name="task-add" method="post" class="form">
+    <div class="form-group">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+
+        {{ form.title.label(class_="form-label") }}
+        {{ form.title(class_="form-field") }}
+    </div>
+    <div class="form-group">
+        {{ form.description.label(class_="form-label") }}
+        {{ form.description(class_="form-field") }}
+    </div>
+    <div class="form-group-button">
+        {{ form.submit(class_="form-button") }}
+        {{ form.cancel(class_="form-button") }}
+    </div>
+</form>
+{% endblock %}
