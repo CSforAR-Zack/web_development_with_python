@@ -7,6 +7,8 @@ def create_user(username, password):
     """Create a new user with the given username and password."""
     password_hash = ws.generate_password_hash(password)
     new_user = tm.User(username=username, password=password_hash)
+    tm.db.session.add(new_user)
+    tm.db.session.commit()
     return new_user
 
 

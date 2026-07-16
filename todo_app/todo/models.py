@@ -18,7 +18,7 @@ class Task(db.Model):
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=True)
     completed = db.Column(db.Boolean, default=False)
-    start_time = db.Column(db.DateTime, nullable=False, default=dt.datetime.now(dt.timezone.utc))
+    start_time = db.Column(db.DateTime, nullable=False, default=lambda: dt.datetime.now(dt.timezone.utc))
     completed_date = db.Column(db.DateTime)
     deleted = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

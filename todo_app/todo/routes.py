@@ -67,6 +67,7 @@ def logout():
         form=form
     )
 
+
 @pages.route("/create_account", methods=["GET", "POST"])
 def create_account():
     """Render the account creation page."""
@@ -115,6 +116,8 @@ def tasks():
         tasks=task_list,
         form=form,
     )
+
+
 @pages.route("/task_add", methods=["GET", "POST"])
 @fkl.login_required
 def task_add():
@@ -139,6 +142,7 @@ def task_add():
         form=form
     )
 
+
 @pages.route("/tasks_deleted", methods=["GET", "POST"])
 @fkl.login_required
 def tasks_deleted():
@@ -154,16 +158,15 @@ def tasks_deleted():
         tasks=archived_tasks,
     )
 
+
 @pages.route("/task/<int:task_id>/toggle", methods=["POST", "GET"])
 @fkl.login_required
 def task_toggle_complete(task_id):
     """Toggle a task's completion status."""
-    task = tm.Task.query.get_or_404(task_id)
-    if task.user_id != fkl.current_user.id:
-        fk.abort(403)  # Forbidden
+    task = ts.get_task(task_id)
 
     task.completed = not task.completed
-    tm.db.session.commit()
+    ts.update_task(task)
 
     fk.flash("Task status updated.", "success")
     return fk.redirect(fk.url_for("pages.tasks"))
@@ -174,8 +177,6 @@ def task_toggle_complete(task_id):
 def task_edit(task_id):
     """Edit a task."""
     task = ts.get_task(task_id)
-    if task.user_id != fkl.current_user.id:
-        fk.abort(403)  # Forbidden
 
     form = tf.EditTaskForm(obj=task)
 
@@ -201,8 +202,6 @@ def task_edit(task_id):
 def task_delete(task_id):
     """Delete a task."""
     task = ts.get_task(task_id)
-    if task.user_id != fkl.current_user.id:
-        fk.abort(403)  # Forbidden
 
     ts.delete_task(task)
     fk.flash("Task deleted successfully.", "success")
@@ -214,8 +213,6 @@ def task_delete(task_id):
 def task_toggle_delete_flag(task_id):
     """Toggle a task's deleted status."""
     task = ts.get_task(task_id)
-    if task.user_id != fkl.current_user.id:
-        fk.abort(403)  # Forbidden
 
     task.deleted = not task.deleted
     ts.update_task(task)

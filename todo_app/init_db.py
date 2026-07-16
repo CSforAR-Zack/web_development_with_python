@@ -12,5 +12,3 @@ with app.app_context():
 
     # Create a new user
     user = ts.create_user("admin", "pass")
-    db.session.add(user)
-    db.session.commit()
