@@ -40,9 +40,9 @@ def get_deleted_tasks_for_user(user_id):
     return tm.Task.query.filter_by(user_id=user_id, deleted=True).all()
 
 
-def get_task(task_id):
-    """Retrieve a task by its ID."""
-    return tm.Task.query.get(int(task_id))
+def get_task(task_id, user_id):
+    """Retrieve a task by its ID, scoped to the owning user."""
+    return tm.Task.query.filter_by(id=int(task_id), user_id=user_id).first()
 
 
 def add_task(task):

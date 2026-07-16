@@ -84,7 +84,7 @@ def create_account():
             fk.flash("Account created successfully. Please log in.", "success")
             return fk.redirect(fk.url_for("pages.login"))
         else:
-            fk.flash("Username already exists. Please choose a different one.", "error")
+            fk.flash("There was a problem with that username and password!", "error")
 
     return fk.render_template(
         "create_account.jinja",
@@ -163,7 +163,9 @@ def tasks_deleted():
 @fkl.login_required
 def task_toggle_complete(task_id):
     """Toggle a task's completion status."""
-    task = ts.get_task(task_id)
+    task = ts.get_task(task_id, fkl.current_user.id)
+    if task is None:
+        fk.abort(404)
 
     task.completed = not task.completed
     ts.update_task(task)
@@ -176,7 +178,9 @@ def task_toggle_complete(task_id):
 @fkl.login_required
 def task_edit(task_id):
     """Edit a task."""
-    task = ts.get_task(task_id)
+    task = ts.get_task(task_id, fkl.current_user.id)
+    if task is None:
+        fk.abort(404)
 
     form = tf.EditTaskForm(obj=task)
 
@@ -201,7 +205,9 @@ def task_edit(task_id):
 @fkl.login_required
 def task_delete(task_id):
     """Delete a task."""
-    task = ts.get_task(task_id)
+    task = ts.get_task(task_id, fkl.current_user.id)
+    if task is None:
+        fk.abort(404)
 
     ts.delete_task(task)
     fk.flash("Task deleted successfully.", "success")
@@ -212,7 +218,9 @@ def task_delete(task_id):
 @fkl.login_required
 def task_toggle_delete_flag(task_id):
     """Toggle a task's deleted status."""
-    task = ts.get_task(task_id)
+    task = ts.get_task(task_id, fkl.current_user.id)
+    if task is None:
+        fk.abort(404)
 
     task.deleted = not task.deleted
     ts.update_task(task)

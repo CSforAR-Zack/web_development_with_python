@@ -1,0 +1,52 @@
+Proposed Changes - Issue #2 (GET-based state changes / CSRF)
+==============================================================
+
+Approach: POST-only state changes, with a confirmation page for the
+permanent delete (mirroring the existing LogoutForm confirm/cancel
+pattern), and direct CSRF-protected POST buttons for the two reversible
+toggle actions.
+
+1. todo/routes.py
+   - task_toggle_complete: change methods to ["POST"] only (drop GET).
+   - task_toggle_delete_flag: change methods to ["POST"] only (drop GET).
+   - task_delete: split into two routes:
+       * GET /task/<id>/delete -> renders a confirmation page (no
+         mutation), 404s if the task doesn't belong to current_user.
+       * POST /task/<id>/delete -> only executes if a DeleteTaskForm
+         confirm_submit was submitted; cancel_submit redirects back to
+         tasks without deleting. Reuses the existing ownership check
+         from ts.get_task(task_id, user_id).
+
+2. todo/forms.py
+   - Add DeleteTaskForm(FlaskForm) with confirm_submit and cancel_submit
+     SubmitFields, following the same shape as LogoutForm.
+
+3. New template: todo/templates/task_delete_confirm.jinja
+   - Modeled on logout.jinja: shows the task title and asks the user to
+     confirm permanent deletion, with Confirm/Cancel buttons wired to
+     DeleteTaskForm.
+
+4. todo/templates/tasks.jinja
+   - Toggle-complete icon (line 17) and toggle-delete/trash icon
+     (line 27): replace the <a href="..."> links with small
+     <form method="post"> elements containing {{ csrf_token() }} (or a
+     small shared form object) and an icon-styled submit button.
+   - Edit icon (line 24) stays a plain <a href> — GET only renders the
+     edit form; the mutation happens behind task_edit's own
+     CSRF-protected POST submit.
+
+5. todo/templates/tasks_deleted.jinja
+   - Restore-from-trash icon: same treatment as the trash icon above
+     (POST form instead of GET link) since it also calls
+     task_toggle_delete_flag.
+   - Permanent-delete icon: change from a direct action link to a link
+     to the new GET confirmation route (safe, non-mutating navigation).
+
+6. CSS (styles used by tasks.jinja / tasks_deleted.jinja)
+   - Add a button reset (e.g. `button.icon-button { all: unset;
+     cursor: pointer; }`) so the new <button> submits inside each icon
+     form look identical to the current plain links.
+
+Not in scope for this change:
+   - Issue #6 (login brute-force protection) — separate change.
+   - Issue #7 (password policy) — separate change.

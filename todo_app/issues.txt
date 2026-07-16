@@ -1,0 +1,29 @@
+Security Issues - TODO App
+==========================
+
+2. State-changing routes allow GET — CSRF
+   File: todo/routes.py:162-220
+   /task/<id>/toggle, /edit, /delete, /toggle_delete all accept GET and
+   mutate/delete data immediately. delete and both toggle routes have no
+   form/CSRF token at all. An attacker can trigger these for a logged-in
+   victim with a plain <img src="..."> or link, since Flask-WTF CSRF
+   protection only covers form POSTs, not bare GETs.
+   Fix: make these POST-only, backed by a CSRF-protected form.
+
+
+6. No brute-force protection
+   File: todo/services.py:15-20 (verify_user)
+   No rate limiting or lockout on login attempts.
+
+7. No password policy
+   File: todo/forms.py (RegisterForm)
+   Only requires password fields to be non-empty and match — no minimum
+   length or complexity requirement.
+
+8. Session cookie hardening missing
+   File: todo/__init__.py / config.py
+   No SESSION_COOKIE_SECURE or SESSION_COOKIE_SAMESITE configured, so
+   cookies could be sent over plain HTTP or cross-site.
+
+Priority: fix #1 (IDOR) and #2 (GET-based state changes) first — they let
+any authenticated user tamper with other users' data with almost no effort.
