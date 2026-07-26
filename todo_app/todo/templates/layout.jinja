@@ -3,7 +3,7 @@
 {% from "macros/messages.jinja" import messages %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ 'light' if current_user.theme == 'light'}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    {{ header(current_user.username if current_user.is_authenticated else none) }}
+    {{ header(current_user if current_user.is_authenticated else none) }}
     {{ messages() }}
     {% block content %} {% endblock %}
     {{ footer() }}

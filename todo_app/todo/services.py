@@ -30,6 +30,12 @@ def get_user_by_username(username):
     return tm.User.query.filter_by(username=username).first()
 
 
+def update_user(user):
+    """Update an existing user in the database."""
+    tm.db.session.add(user)
+    tm.db.session.commit()
+
+
 def get_tasks_for_user(user_id):
     """Retrieve non-deleted tasks for a specific user."""
     return tm.Task.query.filter_by(user_id=user_id, deleted=False).all()

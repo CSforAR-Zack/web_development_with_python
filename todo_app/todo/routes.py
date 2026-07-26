@@ -226,3 +226,17 @@ def task_toggle_delete_flag(task_id):
     ts.update_task(task)
     fk.flash("Task delete status updated.", "success")
     return fk.redirect(fk.url_for("pages.tasks"))
+
+
+@pages.route("/toggle_theme", methods=["POST", "GET"])
+@fkl.login_required
+def toggle_theme():
+    """Toggle the user's theme between dark and light mode."""
+    user = fkl.current_user
+    if user.theme == "dark":
+        user.theme = "light"
+    else:
+        user.theme = "dark"
+    ts.update_user(user)
+    fk.flash("Theme updated successfully.", "success")
+    return fk.redirect(fk.url_for("pages.tasks"))

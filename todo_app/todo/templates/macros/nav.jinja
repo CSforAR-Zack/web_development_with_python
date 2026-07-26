@@ -1,17 +1,28 @@
-{% macro header(username) %}
+{% from "macros/icons.jinja" import dark_mode, light_mode %}
+
+{% macro header(current_user) %}
 <header class="nav-header">
     <div class="nav-container">
         <a class="nav-link" href="{{ url_for('pages.tasks') }}">TODO</a>
         <a class="nav-link" href="{{ url_for('pages.tasks_deleted') }}">DELETED</a>
-        {% if username != none %}
+        {% if current_user != none %}
             <a class="nav-link" href="{{ url_for('pages.logout') }}">LOGOUT</a>
         {% else %}
             <a class="nav-link" href="{{ url_for('pages.login') }}">LOGIN</a>
         {% endif %}
     </div>
     <div class="nav-title">
-        {% if username != none %}
-                User: {{ username }}
+        {% if current_user != none %}
+                User: {{ current_user.username }}
+                {% if current_user.theme == "dark" %}                    
+                    <a href="{{ url_for('pages.toggle_theme') }}">
+                        <div class="icon">{{ dark_mode() }}</div>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('pages.toggle_theme') }}">
+                        <div class="icon">{{ light_mode() }}</div>
+                    </a>
+                {% endif %}
         {% else %}
                 User: Not logged in
         {% endif %}
