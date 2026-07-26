@@ -9,10 +9,10 @@
 }
 
 .light-mode {
-    --primary-color: #00cc00;
-    --secondary-color: #515151;
+    --primary-color: #014201;
+    --secondary-color: #e2e2e2;
     --third-color: #222;
-    --highlight-color: #00ff00;
+    --highlight-color: #004300;
     --error-color: #ff8888;
     --background-color: #ffffff;
     --text-color: #000000;
@@ -209,6 +209,23 @@ body {
 }
 .icon:hover {
     transform: scale(1.2);
+}
+
+.theme-toggle {
+    display: inline-flex;
+    text-decoration: none;
+}
+
+.icon-sun {
+    display: none;
+}
+
+html.light-mode .icon-moon {
+    display: none;
+}
+
+html.light-mode .icon-sun {
+    display: inline-block;
 }
 
 /* General Styling */

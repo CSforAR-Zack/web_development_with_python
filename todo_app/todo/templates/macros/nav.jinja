@@ -13,16 +13,14 @@
     </div>
     <div class="nav-title">
         {% if current_user != none %}
-                User: {{ current_user.username }}
-                {% if current_user.theme == "dark" %}                    
-                    <a href="{{ url_for('pages.toggle_theme') }}">
-                        <div class="icon">{{ dark_mode() }}</div>
-                    </a>
+            User: {{ current_user.username }}                
+            <a id="theme-toggle" class="theme-toggle" href="{{ url_for('pages.toggle_theme') }}">
+                {% if current_user.theme == 'dark' %}
+                    <div class="icon">{{ dark_mode() }}</div>
                 {% else %}
-                    <a href="{{ url_for('pages.toggle_theme') }}">
-                        <div class="icon">{{ light_mode() }}</div>
-                    </a>
+                    <div class="icon">{{ light_mode() }}</div>
                 {% endif %}
+            </a>
         {% else %}
                 User: Not logged in
         {% endif %}

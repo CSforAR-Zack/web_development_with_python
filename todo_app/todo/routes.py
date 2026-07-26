@@ -238,5 +238,4 @@ def toggle_theme():
     else:
         user.theme = "dark"
     ts.update_user(user)
-    fk.flash("Theme updated successfully.", "success")
-    return fk.redirect(fk.url_for("pages.tasks"))
+    return fk.redirect(fk.url_for("pages.index"))

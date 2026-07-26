@@ -30,6 +30,15 @@ def create_app():
     # Register the blueprints
     app.register_blueprint(tr.pages)
 
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return fk.render_template(
+            "404.jinja",
+            title="Page Not Found",
+            heading="Page Not Found",
+            content="The page you are looking for could not be found.",
+        ), 404
+
     return app
 
 

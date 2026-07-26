@@ -1,13 +1,14 @@
-const themeBtn = document.getElementById("theme-toggle");
+const themeToggle = document.getElementById("theme-toggle");
 
-themeBtn.addEventListener("click", () => {
-    // Toggle the override class on the body
-    document.body.classList.toggle("light-mode");
-    
-    // Update the button text so it makes sense
-    if (document.body.classList.contains("light-mode")) {
-        themeBtn.innerText = "Switch to Dark Mode";
-    } else {
-        themeBtn.innerText = "Switch to Light Mode";
+themeToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    // Flip the theme instantly, no page reload
+    document.documentElement.classList.toggle("light-mode");
+
+    // Logged-in users get their choice saved server-side in the background
+    const syncUrl = themeToggle.getAttribute("href");
+    if (syncUrl) {
+        fetch(syncUrl, { method: "GET", credentials: "same-origin" }).catch(() => {});
     }
 });
